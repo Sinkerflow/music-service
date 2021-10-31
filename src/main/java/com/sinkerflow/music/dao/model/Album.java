@@ -6,16 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
 @Document
-public class Music {
+public class Album {
 
     private UUID id;
 
     private String name;
 
-    private Artist artist;
-
-    private Source source;
+    private String description;
 }
