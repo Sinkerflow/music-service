@@ -2,9 +2,9 @@ package com.sinkerflow.music.api.handler.exception;
 
 import com.sinkerflow.music.api.handler.Entry;
 
-public class ArtistAlreadyExistsException extends SinkerException {
+public class AlbumNotFoundException extends ResourceNotFoundException {
 
-    public ArtistAlreadyExistsException(Entry entry) {
+    public AlbumNotFoundException(Entry entry) {
         super(entry);
     }
 }

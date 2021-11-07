@@ -13,6 +13,8 @@ public class Music {
 
     private UUID id;
 
+    private String url;
+
     private String name;
 
     private Artist artist;

@@ -9,5 +9,7 @@ public class Source {
 
     private String name;
 
+    private String type;
+
     private String link;
 }

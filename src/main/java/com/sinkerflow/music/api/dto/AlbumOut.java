@@ -1,29 +1,27 @@
-package com.sinkerflow.music.dao.model;
+package com.sinkerflow.music.api.dto;
 
-import com.sinkerflow.music.dao.model.type.AlbumType;
+import com.sinkerflow.music.dao.model.Audit;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-@Document
-public class Album {
+@Builder(toBuilder = true)
+public class AlbumOut {
 
-    @Id
     private UUID id;
-
-    private String url;
 
     private String name;
 
     private String description;
 
-    private AlbumType type;
+    private String type;
 
     private String coverUrl;
 

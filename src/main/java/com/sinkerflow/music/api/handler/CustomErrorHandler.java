@@ -1,32 +1,42 @@
 package com.sinkerflow.music.api.handler;
 
-import com.sinkerflow.music.api.handler.exception.ArtistAlreadyExistsException;
+import com.sinkerflow.music.api.handler.exception.MultipleErrorsException;
+import com.sinkerflow.music.api.handler.exception.SinkerException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
-import java.time.OffsetDateTime;
-import java.util.Arrays;
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
 
 @RestControllerAdvice
 public class CustomErrorHandler {
 
-//    @Value("${STACKTRACE_MODE}")
+    @Value("${STACKTRACE_MODE_ENABLED}")
     private boolean isStackTraceMode;
 
-    @ExceptionHandler(ArtistAlreadyExistsException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorResponse resourceNotFoundException(ArtistAlreadyExistsException e, WebRequest request) {
-        BusinessCode businessCode = e.getBusinessCode();
-        return ErrorResponse.builder()
-                .code(businessCode.getCode())
-                .message(businessCode.getMessage())
-                .detail(e.getDetail())
-                .date(OffsetDateTime.now())
-                .trace(isStackTraceMode ? Arrays.toString(e.getStackTrace()) : null)
-                .build();
+    @ExceptionHandler(MultipleErrorsException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public MultipleErrorsResponse resourceNotFoundException(MultipleErrorsException e) {
+        var exceptions = e.getExceptions();
+        var errors = new HashSet<ErrorResponse>();
+
+        for (SinkerException exception : exceptions) {
+            Entry entry = exception.getEntry();
+            BusinessCode businessCode = entry.getBusinessCode();
+            var error = ErrorResponse.builder()
+                    .code(businessCode.getCode())
+                    .message(businessCode.getMessage())
+                    .detail(entry.getDetail())
+                    .date(Instant.now())
+                    .extra(Collections.emptyMap())
+                    .trace(isStackTraceMode ? e.getStackTrace()[0].toString() : null)
+                    .build();
+            errors.add(error);
+        }
+        return new MultipleErrorsResponse(errors);
     }
 }

@@ -1,6 +1,6 @@
 package com.sinkerflow.music.api;
 
-import com.sinkerflow.music.api.dto.MusicDto;
+import com.sinkerflow.music.api.dto.MusicIn;
 import com.sinkerflow.music.api.mapper.MusicMapper;
 import com.sinkerflow.music.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +24,14 @@ public class MusicController {
     }
 
     @GetMapping("/music")
-    List<MusicDto> retrieveMusicList() {
+    List<MusicIn> retrieveMusicList() {
         return musicService.findAll().stream()
                 .map(mapper::entityToDto)
                 .collect(Collectors.toList());
     }
 
     @PostMapping("/music")
-    MusicDto saveMusic(MusicDto music) {
+    MusicIn saveMusic(MusicIn music) {
         return mapper.entityToDto(musicService.saveOrUpdate(mapper.dtoToEntity(music)));
     }
 

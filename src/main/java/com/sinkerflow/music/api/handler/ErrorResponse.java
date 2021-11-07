@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
+import java.util.Map;
 
 @Builder
 @Data
@@ -17,7 +18,9 @@ public class ErrorResponse {
 
     private String detail;
 
-    private OffsetDateTime date;
+    private Map<String, String> extra;
+
+    private Instant date;
 
     private String trace;
 }
