@@ -1,42 +1,53 @@
 package com.sinkerflow.music.api;
 
 import com.sinkerflow.music.api.dto.MusicIn;
+import com.sinkerflow.music.api.dto.MusicOut;
 import com.sinkerflow.music.api.mapper.MusicMapper;
 import com.sinkerflow.music.service.MusicService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping
+@RequestMapping("/v1/music")
+@RequiredArgsConstructor
 public class MusicController {
 
     private final MusicMapper mapper;
-    private final MusicService musicService;
+    private final MusicService service;
 
-    @Autowired
-    public MusicController(MusicMapper mapper, MusicService musicService) {
-        this.mapper = mapper;
-        this.musicService = musicService;
+    // CREATE
+    @PostMapping
+    public MusicOut create(@RequestBody @Valid MusicIn dto) {
+        return Optional.of(service.create(mapper.inToEntity(dto)))
+                .map(mapper::entityToOut)
+                .orElseThrow();
     }
 
-    @GetMapping("/music")
-    List<MusicIn> retrieveMusicList() {
-        return musicService.findAll().stream()
-                .map(mapper::entityToDto)
+    // READ
+    @GetMapping
+    public List<MusicOut> retrieveAll() {
+        return service.find().stream()
+                .map(mapper::entityToOut)
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/music")
-    MusicIn saveMusic(MusicIn music) {
-        return mapper.entityToDto(musicService.saveOrUpdate(mapper.dtoToEntity(music)));
+    // UPDATE
+    @PutMapping
+    public MusicOut update(@RequestBody @Valid MusicIn dto) {
+        return Optional.of(service.update(mapper.inToEntity(dto)))
+                .map(mapper::entityToOut)
+                .orElseThrow();
     }
 
-    @PostMapping("/music/{id}")
-    void deleteMusicById(@PathVariable("id") UUID id) {
-        musicService.delete(id);
+    // DELETE
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id) {
+        service.delete(id);
     }
 }

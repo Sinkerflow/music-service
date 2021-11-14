@@ -2,7 +2,7 @@ package com.sinkerflow.music.service.logic;
 
 import com.sinkerflow.music.api.handler.BusinessCode;
 import com.sinkerflow.music.api.handler.Entry;
-import com.sinkerflow.music.api.handler.exception.ArtistAlreadyExistsException;
+import com.sinkerflow.music.api.handler.exception.ResourceAlreadyExistsException;
 import com.sinkerflow.music.api.handler.exception.ArtistNotFoundException;
 import com.sinkerflow.music.dao.model.Artist;
 import com.sinkerflow.music.dao.repository.ArtistRepository;
@@ -27,18 +27,18 @@ public class ArtistServiceLogic implements ArtistService {
     private final AuditService auditService;
 
     @Override
-    public Artist create(Artist artist) {
-        var id = artist.getId();
+    public Artist create(Artist entity) {
+        var id = entity.getId();
 
         if (Objects.nonNull(id)) {
-            throw new ArtistAlreadyExistsException(Entry.of(BusinessCode.ARTIST_1003));
+            throw new ResourceAlreadyExistsException(Entry.of(BusinessCode.ARTIST_1003));
         }
-        artist.setId(TokenHelper.generate());
+        entity.setId(TokenHelper.generate());
 
-        if (repository.existsByName(artist.getName())) {
-            throw new ArtistAlreadyExistsException(Entry.of(BusinessCode.ARTIST_1002));
+        if (repository.existsByName(entity.getName())) {
+            throw new ResourceAlreadyExistsException(Entry.of(BusinessCode.ARTIST_1002));
         }
-        return repository.save(artist);
+        return repository.save(entity);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class ArtistServiceLogic implements ArtistService {
     }
 
     @Override
-    public Collection<Artist> find(String artistName) {
-        return repository.findByNameLikeOrderByNameAsc(artistName);
+    public Collection<Artist> find(String name) {
+        return repository.findByNameLikeOrderByNameAsc(name);
     }
 
     @Override

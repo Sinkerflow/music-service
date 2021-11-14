@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -17,7 +18,7 @@ public class Music {
 
     private String name;
 
-    private Artist artist;
+    private UUID artistId;
 
-    private Source source;
+    private Collection<Source> source;
 }

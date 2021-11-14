@@ -17,13 +17,13 @@ public class ArtistIn {
 
     private UUID id;
 
-    @NotNull(message = "SINKER-0001")
+    @NotNull
     private String name;
 
     private String description;
 
     private String avatarUrl;
 
-    @NotNull(message = "SINKER-0002")
+    @NotNull
     private Set<UUID> albumIds;
 }
