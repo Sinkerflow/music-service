@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class AlbumValidationService extends AbstractValidationService<Album> {
+public class MusicValidationService extends AbstractValidationService<Album> {
 
     private final AlbumRepository repository;
 

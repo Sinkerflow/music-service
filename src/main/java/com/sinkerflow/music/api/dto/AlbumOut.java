@@ -1,6 +1,7 @@
 package com.sinkerflow.music.api.dto;
 
 import com.sinkerflow.music.dao.model.Audit;
+import com.sinkerflow.music.dao.model.type.AlbumType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +18,13 @@ public class AlbumOut {
 
     private UUID id;
 
+    private String url;
+
     private String name;
 
     private String description;
 
-    private String type;
+    private AlbumType type;
 
     private String coverUrl;
 

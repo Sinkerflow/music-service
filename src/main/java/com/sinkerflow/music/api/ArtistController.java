@@ -4,7 +4,7 @@ import com.sinkerflow.music.api.dto.ArtistIn;
 import com.sinkerflow.music.api.dto.ArtistOut;
 import com.sinkerflow.music.api.mapper.ArtistMapper;
 import com.sinkerflow.music.service.ArtistService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,59 +14,40 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/artists")
+@RequestMapping("/v1/artists")
+@RequiredArgsConstructor
 public class ArtistController {
 
     private final ArtistMapper mapper;
-    private final ArtistService artistService;
-
-    @Autowired
-    public ArtistController(ArtistMapper mapper, ArtistService artistService) {
-        this.mapper = mapper;
-        this.artistService = artistService;
-    }
-
-    @GetMapping
-    public List<ArtistOut> retrieveAuthors() {
-        return artistService.find().stream()
-                .map(mapper::entityToOut)
-                .collect(Collectors.toList());
-    }
+    private final ArtistService service;
 
     // CREATE
     @PostMapping
-    public ArtistOut createArtist(@RequestBody @Valid ArtistIn artist) {
-        return Optional.of(artistService.create(mapper.inToEntity(artist)))
+    public ArtistOut create(@RequestBody @Valid ArtistIn dto) {
+        return Optional.of(service.create(mapper.inToEntity(dto)))
                 .map(mapper::entityToOut)
                 .orElseThrow();
     }
 
     // READ
-    @GetMapping("/id/{id}")
-    public ArtistOut retrieveAuthorById(@PathVariable("id") UUID id) {
-        return Optional.of(artistService.findOne(id))
+    @GetMapping
+    public List<ArtistOut> retrieveAll() {
+        return service.find().stream()
                 .map(mapper::entityToOut)
-                .orElseThrow();
-    }
-
-    @GetMapping("/name/{name}")
-    public ArtistOut retrieveAuthorByName(@PathVariable("name") String name) {
-        return Optional.of(artistService.findOne(name))
-                .map(mapper::entityToOut)
-                .orElseThrow();
+                .collect(Collectors.toList());
     }
 
     // UPDATE
     @PutMapping
-    public ArtistOut updateArtist(@RequestBody @Valid ArtistIn artist) {
-        return Optional.of(artistService.update(mapper.inToEntity(artist)))
+    public ArtistOut update(@RequestBody @Valid ArtistIn dto) {
+        return Optional.of(service.update(mapper.inToEntity(dto)))
                 .map(mapper::entityToOut)
                 .orElseThrow();
     }
 
     // DELETE
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable UUID id) {
-        artistService.delete(id);
+    public void delete(@PathVariable UUID id) {
+        service.delete(id);
     }
 }

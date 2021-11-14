@@ -7,6 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum BusinessCode {
 
+    // Common
+    SINKER_1001("SINKER-1000", "Parameter ID is not specified"),
+
     // Artists
     ARTIST_1000("ARTIST-1000", "Artist by identifier was not found"),
     ARTIST_1001("ARTIST-1001", "Artist by name was not found"),
@@ -16,9 +19,12 @@ public enum BusinessCode {
     // Albums
     ALBUM_1000("ALBUM-1000", "Album by identifier was not found"),
     ALBUM_1001("ALBUM-1001", "Album by URL was not found"),
-    ALBUM_1002("ALBUM-1001", "Album by URL already exists");
+    ALBUM_1002("ALBUM-1002", "Album by URL already exists"),
 
     // Music
+    MUSIC_1000("MUSIC-1000", "Music by identifier was not found"),
+    MUSIC_1001("MUSIC-1001", "Music by URL was not found"),
+    MUSIC_1002("MUSIC-1002", "Music by URL already exists");
 
     private String code;
 

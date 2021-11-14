@@ -2,7 +2,6 @@ package com.sinkerflow.music.service.logic;
 
 import com.sinkerflow.music.api.handler.BusinessCode;
 import com.sinkerflow.music.api.handler.Entry;
-import com.sinkerflow.music.api.handler.exception.AlbumAlreadyExistsException;
 import com.sinkerflow.music.api.handler.exception.AlbumNotFoundException;
 import com.sinkerflow.music.dao.model.Album;
 import com.sinkerflow.music.dao.repository.AlbumRepository;
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Objects;
 import java.util.UUID;
 
 import static com.sinkerflow.music.api.handler.BusinessCode.ALBUM_1000;
@@ -31,12 +29,12 @@ public class AlbumServiceLogic implements AlbumService {
     private final AlbumValidationService validation;
 
     @Override
-    public Album create(Album album) {
-        validation.validateOnCreate(album);
+    public Album create(Album entity) {
+        validation.validateOnCreate(entity);
 
-        var id = album.getId();
-        album.setId(TokenHelper.generate());
-        return repository.save(album);
+        entity.setId(TokenHelper.generate());
+        entity.setAudit(auditService.update(entity.getAudit()));
+        return repository.save(entity);
     }
 
     @Override
