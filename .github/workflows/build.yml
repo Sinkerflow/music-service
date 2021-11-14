@@ -2,7 +2,7 @@ name: build
 on:
   pull_request:
     branches:
-      - develop
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,4 +20,4 @@ jobs:
           mongodb-version: 4.2
 
       - name: Maven build
-        run: ./mvnw clean package
+        run: chmod +x mvnw & ./mvnw clean package
