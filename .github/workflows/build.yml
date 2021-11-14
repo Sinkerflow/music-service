@@ -20,4 +20,4 @@ jobs:
           mongodb-version: 4.2
 
       - name: Maven build
-        run: ./mvnw clean package
+        run: chmod +x mvnw & ./mvnw clean package
