@@ -15,12 +15,12 @@ import java.util.HashSet;
 @RestControllerAdvice
 public class CustomErrorHandler {
 
-    @Value("${STACKTRACE_MODE_ENABLED}")
-    private boolean isStackTraceMode;
+//    @Value("${STACKTRACE_MODE_ENABLED}")
+//    private boolean isStackTraceMode;
 
     @ExceptionHandler(MultipleErrorsException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public MultipleErrorsResponse resourceNotFoundException(MultipleErrorsException e) {
+    public MultipleErrorsResponse multipleExceptionHandler(MultipleErrorsException e) {
         var exceptions = e.getExceptions();
         var errors = new HashSet<ErrorResponse>();
 
@@ -33,10 +33,28 @@ public class CustomErrorHandler {
                     .detail(entry.getDetail())
                     .date(Instant.now())
                     .extra(Collections.emptyMap())
-                    .trace(isStackTraceMode ? e.getStackTrace()[0].toString() : null)
+                    //.trace(isStackTraceMode ? e.getStackTrace()[0].toString() : null)
+                    .trace(null)
                     .build();
             errors.add(error);
         }
         return new MultipleErrorsResponse(errors);
+    }
+
+    @ExceptionHandler(SinkerException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public MultipleErrorsResponse singleExceptionHandler(SinkerException e) {
+        BusinessCode businessCode = e.getEntry().getBusinessCode();
+        var error = ErrorResponse.builder()
+                .code(businessCode.getCode())
+                .message(businessCode.getMessage())
+                .detail(e.getEntry().getDetail())
+                .date(Instant.now())
+                .extra(Collections.emptyMap())
+                //.trace(isStackTraceMode ? e.getStackTrace()[0].toString() : null)
+                .trace(null)
+                .build();
+
+        return new MultipleErrorsResponse(Collections.singleton(error));
     }
 }

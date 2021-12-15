@@ -5,6 +5,7 @@ import com.sinkerflow.music.api.handler.Entry;
 import com.sinkerflow.music.api.handler.exception.ResourceAlreadyExistsException;
 import com.sinkerflow.music.api.handler.exception.ResourceNotFoundException;
 import com.sinkerflow.music.dao.model.Artist;
+import com.sinkerflow.music.dao.model.Audit;
 import com.sinkerflow.music.dao.model.Music;
 import com.sinkerflow.music.dao.repository.MusicRepository;
 import com.sinkerflow.music.helper.TokenHelper;
@@ -52,6 +53,7 @@ public class MusicServiceLogic implements MusicService {
         }
 
         entity.setId(TokenHelper.generate());
+        entity.setAudit(new Audit());
         return repository.save(entity);
     }
 
@@ -84,10 +86,10 @@ public class MusicServiceLogic implements MusicService {
 
         if (stored.isPresent()) {
             var targetEntity = stored.get();
-            targetEntity.setName(targetEntity.getName());
-            targetEntity.setUrl(targetEntity.getUrl());
-            targetEntity.setSource(targetEntity.getSource());
-
+            targetEntity.setName(entity.getName());
+            targetEntity.setUrl(entity.getUrl());
+            targetEntity.setSources(entity.getSources());
+            entity.setAudit(auditService.update(entity.getAudit()));
             return repository.save(targetEntity);
         } else {
             throw new ResourceNotFoundException(Entry.of(BusinessCode.MUSIC_1000));

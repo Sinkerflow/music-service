@@ -5,6 +5,7 @@ import com.sinkerflow.music.api.handler.Entry;
 import com.sinkerflow.music.api.handler.exception.ResourceAlreadyExistsException;
 import com.sinkerflow.music.api.handler.exception.ArtistNotFoundException;
 import com.sinkerflow.music.dao.model.Artist;
+import com.sinkerflow.music.dao.model.Audit;
 import com.sinkerflow.music.dao.repository.ArtistRepository;
 import com.sinkerflow.music.helper.TokenHelper;
 import com.sinkerflow.music.service.ArtistService;
@@ -38,6 +39,8 @@ public class ArtistServiceLogic implements ArtistService {
         if (repository.existsByName(entity.getName())) {
             throw new ResourceAlreadyExistsException(Entry.of(BusinessCode.ARTIST_1002));
         }
+
+        entity.setAudit(new Audit());
         return repository.save(entity);
     }
 
@@ -64,21 +67,19 @@ public class ArtistServiceLogic implements ArtistService {
     }
 
     @Override
-    public Artist update(Artist artist) {
-        var id = artist.getId();
+    public Artist update(Artist entity) {
+        var id = entity.getId();
         var stored = repository.findById(id);
 
-        if (stored.isPresent()) {
-            var entity = stored.get();
-            entity.setName(artist.getName());
-            entity.setDescription(artist.getDescription());
-            entity.setAlbumIds(artist.getAlbumIds());
-            entity.setAudit(auditService.update(entity.getAudit()));
-
-            return repository.save(entity);
-        } else {
+        if (stored.isEmpty()) {
             throw new ArtistNotFoundException(Entry.of(BusinessCode.ARTIST_1000));
         }
+        var targetEntity = stored.get();
+        targetEntity.setName(entity.getName());
+        targetEntity.setDescription(entity.getDescription());
+        targetEntity.setAlbumIds(entity.getAlbumIds());
+        targetEntity.setAudit(auditService.update(entity.getAudit()));
+        return repository.save(targetEntity);
     }
 
     @Override

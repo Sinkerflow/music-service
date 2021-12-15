@@ -18,13 +18,13 @@ public class MusicOut {
 
     private UUID id;
 
-    private String name;
-
     private String url;
+
+    private String name;
 
     private UUID artistId;
 
-    private Collection<Source> source;
+    private Collection<Source> sources;
 
     private Audit audit;
 }

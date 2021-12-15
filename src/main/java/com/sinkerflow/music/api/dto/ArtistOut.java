@@ -17,6 +17,8 @@ public class ArtistOut {
 
     private UUID id;
 
+    private String url;
+
     private String name;
 
     private String description;
