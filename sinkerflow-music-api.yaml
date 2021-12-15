@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: sinkerflow-music-api
-        image: mishachernsyhev14/sinkerflow:1.0
+        image: mishachernsyhev14/sinkerflow:2.0
         ports:
         - containerPort: 8080
       - name: mongo
