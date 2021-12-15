@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sinkerflow-music-api
+  labels:
+    app: sinkerflow-music
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sinkerflow-music-api
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: sinkerflow-music-api
+        image: ghcr.io/sinkerflow/sinkerflow-music-api:1.0
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sinkerflow-music-api
+spec:
+  selector:
+    app: sinkerflow-music
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000

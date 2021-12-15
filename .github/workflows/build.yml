@@ -38,6 +38,13 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          tags: |
-            ghcr.io/sinkerflow/sinkerflow-music-api:1.0
+          tags: ghcr.io/sinkerflow/sinkerflow-music-api:1.0
           push: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: push to kuber
+        uses: Consensys/kubernetes-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: --insecure-skip-tls-verify apply -f 
+
