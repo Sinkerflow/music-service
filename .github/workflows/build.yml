@@ -21,6 +21,24 @@ jobs:
           mongodb-version: 4.2
 
       - name: Maven build
-        run: chmod +x mvnw & ./mvnw clean package
+        run: chmod 777 mvnw & ./mvnw clean package
 
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build image and push GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          tags: mishachernsyhev14/sinkerflow:1.0
+          push: true
+
+      - name: push to kuber
+        uses: Consensys/kubernetes-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{secrets.KUBE_CONFIG_DATA}}
+        with:
+          args: --insecure-skip-tls-verify apply -f sinkerflow-music-api.yaml

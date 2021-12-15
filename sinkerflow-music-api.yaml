@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sinkerflow-music-api
+  labels:
+    app: sinkerflow-music
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sinkerflow-music-api
+  template:
+    metadata:
+      labels:
+        app: sinkerflow-music-api
+    spec:
+      containers:
+      - name: sinkerflow-music-api
+        image: mishachernsyhev14/sinkerflow:1.0
+        ports:
+        - containerPort: 8080
+      - name: mongo
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sinkerflow-music-api
+spec:
+  selector:
+    app: sinkerflow-music
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 9000
