@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          tags: mishachernsyhev14/sinkerflow:1.0
+          tags: mishachernsyhev14/sinkerflow:2.0
           push: true
 
       - name: push to kuber
