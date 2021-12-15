@@ -38,7 +38,6 @@ jobs:
         with:
           context: .
           tags: mishachernsyhev14/sinkerflow:1.0
-          push: ${{github.ref == 'refs/heads/main'}}
 
       - name: push to kuber
         uses: Consensys/kubernetes-action@master
