@@ -1,5 +1,6 @@
 package com.sinkerflow.music.dao.model;
 
+import com.sinkerflow.music.dao.model.type.FormatType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ public class Source {
 
     private String name;
 
-    private String type;
+    private FormatType type;
 
     private String link;
 }

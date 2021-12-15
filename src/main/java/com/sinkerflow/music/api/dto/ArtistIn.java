@@ -17,6 +17,8 @@ public class ArtistIn {
 
     private UUID id;
 
+    private String url;
+
     @NotNull
     private String name;
 

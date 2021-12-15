@@ -20,5 +20,7 @@ public class Music {
 
     private UUID artistId;
 
-    private Collection<Source> source;
+    private Collection<Source> sources;
+
+    private Audit audit;
 }
