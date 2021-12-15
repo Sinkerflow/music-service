@@ -18,13 +18,13 @@ public class MusicIn {
 
     private UUID id;
 
+    private String url;
+
     @NotNull
     private String name;
-
-    private String url;
 
     private UUID artistId;
 
     @NotNull
-    private Collection<Source> source;
+    private Collection<Source> sources;
 }
