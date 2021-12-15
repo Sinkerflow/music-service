@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: sinkerflow-music-api
-        image: ghcr.io/sinkerflow/sinkerflow-music-api:1.0
+        image: sinkerflow/sinkerflow-music-api:1.0
         ports:
         - containerPort: 80
 
