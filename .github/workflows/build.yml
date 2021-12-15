@@ -1,4 +1,4 @@
-name: build
+name: Pipline
 on:
   pull_request:
     branches:
@@ -21,15 +21,24 @@ jobs:
 
       - name: Maven build
         run: chmod +x mvnw & ./mvnw clean package
-
+  build_docker:
+    runs-on: ubuntu-latest
+    steps:
       - name: Set up Docker Buildx
         id: sinkerflow-music-api
         uses: docker/setup-buildx-action@v1
 
+      - name: Login to Github Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
       - name: Build image and push GitHub Container Registry
         uses: docker/build-push-action@v2
         with:
-          context: ./src/samples/simple
+          context: .
           tags: |
             ghcr.io/sinkerflow/sinkerflow-music-api:1.0
           push: ${{ github.ref == 'refs/heads/main' }}
