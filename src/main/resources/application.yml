@@ -22,22 +22,22 @@ spring:
       on-profile: cloud
   data:
     mongodb:
-      host: mongo-service
+      host: mongo-srv
       port: 27017
       database: sinkerflow
 
-STACKTRACE_MODE_ENABLED: ${STACKTRACE_MODE_ENABLED:false}
+#STACKTRACE_MODE_ENABLED: ${STACKTRACE_MODE_ENABLED:false}
 
 --- # develop
 server:
-  port: ${PORT:8888}
+  port: ${PORT:8080}
 spring:
   profiles:
     active: develop
   data:
     mongodb:
-      host: localhost
+      host: mongo-srv
       port: 27017
       database: sinkerflow
 
-STACKTRACE_MODE_ENABLED: ${STACKTRACE_MODE_ENABLED:true}
+#STACKTRACE_MODE_ENABLED: ${STACKTRACE_MODE_ENABLED:true}
