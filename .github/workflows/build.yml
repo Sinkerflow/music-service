@@ -38,6 +38,7 @@ jobs:
         with:
           context: .
           tags: mishachernsyhev14/sinkerflow:1.0
+          push: true
 
       - name: push to kuber
         uses: Consensys/kubernetes-action@master
