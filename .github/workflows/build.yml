@@ -21,7 +21,7 @@ jobs:
           mongodb-version: 4.2
 
       - name: Maven build
-        run: chmod +x mvnw & ./mvnw clean package
+        run: chmod 777 mvnw & ./mvnw clean package
 
       - name: Set up Docker Buildx
         id: sinkerflow-music-api
