@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          tags: sinkerflow/sinkerflow-music-api:1.0
+          tags: mishachernsyhev14/sinkerflow-music-api:1.0
           push: ${{github.ref == 'refs/heads/main'}}
 
       - name: push to kuber
