@@ -43,7 +43,7 @@ jobs:
           ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
           ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
           stack_file_name: docker-compose.yml
-          args: up -d
+          args: up
 
 #       - name: push to kuber
 #         uses: Consensys/kubernetes-action@master
