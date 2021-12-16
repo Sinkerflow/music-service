@@ -36,12 +36,12 @@ jobs:
           tags: mishachernsyhev14/sinkerflow:2.0
           push: true
           
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}          
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+      - name: Start Deployment
+        uses: TapTap21/docker-remote-deployment-action@v1.0
+        with:
+          remote_docker_host: ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 
+          ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
+          stack_file_name: docker-compose.yml
 
 #       - name: push to kuber
 #         uses: Consensys/kubernetes-action@master
