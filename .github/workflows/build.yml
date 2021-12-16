@@ -29,13 +29,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build image and push GitHub Container Registry
+      - name: Build image and push DockerHub Container Registry
         uses: docker/build-push-action@v2
         with:
           context: .
           tags: mishachernsyhev14/sinkerflow:2.0
           push: true
-          
           
       - name: Upload Files
         uses: siva1024/scp-deployer@latest
@@ -45,7 +44,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "docker-compose.yml"
           target: "~/"    
-      - name: D
+      - name: Deploy with docker-compose
         uses: appleboy/ssh-action@master
         with:
            host: ${{ secrets.REMOTE_HOST }}
@@ -53,19 +52,3 @@ jobs:
            key: ${{ secrets.SERVER_SSH_KEY }}
            port: 22
            script: sudo docker-compose up -d
-          
-#         - name: Start Deployment
-#           uses: TapTap21/docker-remote-deployment-action@v1.0
-#           with:
-#             remote_docker_host: ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 
-#             ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
-#             ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-#             stack_file_name: docker-compose.yml
-#             args: up
-
-#       - name: push to kuber
-#         uses: Consensys/kubernetes-action@master
-#         env:
-#           KUBE_CONFIG_DATA: ${{secrets.KUBE_CONFIG_DATA}}
-#         with:
-#           args: --insecure-skip-tls-verify apply -f sinkerflow-music-api.yaml
