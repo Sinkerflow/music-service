@@ -36,14 +36,18 @@ jobs:
           tags: mishachernsyhev14/sinkerflow:2.0
           push: true
           
-      - name: Start Deployment
-        uses: TapTap21/docker-remote-deployment-action@v1.0
-        with:
-          remote_docker_host: ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 
-          ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
-          ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
-          stack_file_name: docker-compose.yml
-          args: up
+          
+      - name: push
+        run: ssh root@51.250.30.54 -k ${{ secrets.SERVER_SSH_KEY }}
+          
+#         - name: Start Deployment
+#           uses: TapTap21/docker-remote-deployment-action@v1.0
+#           with:
+#             remote_docker_host: ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} 
+#             ssh_private_key: ${{ secrets.SERVER_SSH_KEY }}
+#             ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+#             stack_file_name: docker-compose.yml
+#             args: up
 
 #       - name: push to kuber
 #         uses: Consensys/kubernetes-action@master
