@@ -35,10 +35,17 @@ jobs:
           context: .
           tags: mishachernsyhev14/sinkerflow:2.0
           push: true
-
-      - name: push to kuber
-        uses: Consensys/kubernetes-action@master
+          
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
         env:
-          KUBE_CONFIG_DATA: ${{secrets.KUBE_CONFIG_DATA}}
-        with:
-          args: --insecure-skip-tls-verify apply -f sinkerflow-music-api.yaml
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          SOURCE: "dist/"          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+
+#       - name: push to kuber
+#         uses: Consensys/kubernetes-action@master
+#         env:
+#           KUBE_CONFIG_DATA: ${{secrets.KUBE_CONFIG_DATA}}
+#         with:
+#           args: --insecure-skip-tls-verify apply -f sinkerflow-music-api.yaml
