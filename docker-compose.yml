@@ -11,7 +11,8 @@ services:
     ports:
       - "27017:27017"
   music-srv:
-    build: ./
+#    build:./
+    image: mishachernsyhev14/sinkerflow:2.0
     container_name: music-srv
     networks:
       - net
