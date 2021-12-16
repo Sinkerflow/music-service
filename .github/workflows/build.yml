@@ -36,9 +36,14 @@ jobs:
           tags: mishachernsyhev14/sinkerflow:2.0
           push: true
           
-          
-      - name: push
-        run: ssh root@51.250.30.54 -k ${{ secrets.SERVER_SSH_KEY }}
+      - name: D
+        uses: appleboy/ssh-action@master
+        with:
+           host: ${{ secrets.REMOTE_HOST }}
+           username: ${{ secrets.REMOTE_USER }}
+           key: ${{ secrets.SERVER_SSH_KEY }
+           port: 22
+           script: whoami
           
 #         - name: Start Deployment
 #           uses: TapTap21/docker-remote-deployment-action@v1.0
