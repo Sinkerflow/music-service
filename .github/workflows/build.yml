@@ -36,6 +36,15 @@ jobs:
           tags: mishachernsyhev14/sinkerflow:2.0
           push: true
           
+          
+      - name: Upload Files
+        uses: siva1024/scp-deployer@latest
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "~/"    
       - name: D
         uses: appleboy/ssh-action@master
         with:
@@ -43,7 +52,7 @@ jobs:
            username: ${{ secrets.REMOTE_USER }}
            key: ${{ secrets.SERVER_SSH_KEY }}
            port: 22
-           script: whoami
+           script: sudo docker-compose up -d
           
 #         - name: Start Deployment
 #           uses: TapTap21/docker-remote-deployment-action@v1.0
