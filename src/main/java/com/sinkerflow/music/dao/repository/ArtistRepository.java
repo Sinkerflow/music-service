@@ -13,6 +13,8 @@ public interface ArtistRepository extends MongoRepository<Artist, UUID> {
 
     boolean existsByName(String artistName);
 
+    boolean existsByUrl(String artistUrl);
+
     Optional<Artist> findByName(String artistName);
 
     Collection<Artist> findByNameLikeOrderByNameAsc(String artistName);
