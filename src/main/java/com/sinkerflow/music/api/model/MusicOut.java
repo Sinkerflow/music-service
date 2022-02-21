@@ -1,12 +1,12 @@
-package com.sinkerflow.music.api.dto;
+package com.sinkerflow.music.api.model;
 
+import com.sinkerflow.music.dao.model.Audit;
 import com.sinkerflow.music.dao.model.Source;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -14,17 +14,17 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MusicIn {
+public class MusicOut {
 
     private UUID id;
 
     private String url;
 
-    @NotNull
     private String name;
 
     private UUID artistId;
 
-    @NotNull
     private Collection<Source> sources;
+
+    private Audit audit;
 }
