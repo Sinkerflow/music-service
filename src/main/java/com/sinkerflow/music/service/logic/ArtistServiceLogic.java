@@ -2,8 +2,8 @@ package com.sinkerflow.music.service.logic;
 
 import com.sinkerflow.music.api.handler.BusinessCode;
 import com.sinkerflow.music.api.handler.Entry;
-import com.sinkerflow.music.api.handler.exception.ResourceAlreadyExistsException;
 import com.sinkerflow.music.api.handler.exception.ArtistNotFoundException;
+import com.sinkerflow.music.api.handler.exception.ResourceAlreadyExistsException;
 import com.sinkerflow.music.dao.model.Artist;
 import com.sinkerflow.music.dao.model.Audit;
 import com.sinkerflow.music.dao.repository.ArtistRepository;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Slf4j
@@ -31,7 +30,7 @@ public class ArtistServiceLogic implements ArtistService {
     public Artist create(Artist entity) {
         var id = entity.getId();
 
-        if (Objects.nonNull(id)) {
+        if (id != null || repository.existsByUrl(entity.getUrl())) {
             throw new ResourceAlreadyExistsException(Entry.of(BusinessCode.ARTIST_1003));
         }
         entity.setId(TokenHelper.generate());
@@ -77,6 +76,8 @@ public class ArtistServiceLogic implements ArtistService {
         var targetEntity = stored.get();
         targetEntity.setName(entity.getName());
         targetEntity.setDescription(entity.getDescription());
+        targetEntity.setUrl(entity.getUrl());
+        targetEntity.setAvatarUrl(entity.getAvatarUrl());
         targetEntity.setAlbumIds(entity.getAlbumIds());
         targetEntity.setAudit(auditService.update(entity.getAudit()));
         return repository.save(targetEntity);

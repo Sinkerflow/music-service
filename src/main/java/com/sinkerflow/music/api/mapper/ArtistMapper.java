@@ -6,6 +6,7 @@ import com.sinkerflow.music.dao.model.Artist;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Collection;
 
 @Mapper(componentModel = "spring")
@@ -20,4 +21,8 @@ public interface ArtistMapper {
     Collection<Artist> inToEntityList(Collection<ArtistIn> entity);
 
     Collection<ArtistOut> entityToOutList(Collection<Artist> entity);
+
+    Artist entityToEntity(Artist entities);
+
+    Collection<Artist> entityToEntityList(Collection<Artist> entities);
 }
