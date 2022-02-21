@@ -1,34 +1,31 @@
-package com.sinkerflow.music.api.dto;
+package com.sinkerflow.music.api.model;
 
-import com.sinkerflow.music.dao.model.Audit;
-import com.sinkerflow.music.dao.model.type.AlbumType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class AlbumOut {
+public class ArtistIn {
 
     private UUID id;
 
     private String url;
 
+    @NotNull
     private String name;
 
     private String description;
 
-    private AlbumType type;
+    private String avatarUrl;
 
-    private String coverUrl;
-
-    private Instant released;
-
-    private Audit audit;
+    @NotNull
+    private Set<UUID> albumIds;
 }

@@ -1,10 +1,12 @@
 package com.sinkerflow.music.api;
 
-import com.sinkerflow.music.api.dto.AlbumIn;
-import com.sinkerflow.music.api.dto.AlbumOut;
+import com.sinkerflow.music.api.model.AlbumIn;
+import com.sinkerflow.music.api.model.AlbumOut;
 import com.sinkerflow.music.api.mapper.AlbumMapper;
 import com.sinkerflow.music.service.AlbumService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,10 +25,9 @@ public class AlbumController {
 
     // CREATE
     @PostMapping
-    public AlbumOut create(@RequestBody @Valid AlbumIn dto) {
-        return Optional.of(service.create(mapper.inToEntity(dto)))
-                .map(mapper::entityToOut)
-                .orElseThrow();
+    public ResponseEntity<?> create(@RequestBody @Valid AlbumIn albumIn) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(mapper.entityToOut(service.create(mapper.inToEntity(albumIn))));
     }
 
     // READ
@@ -39,8 +40,8 @@ public class AlbumController {
 
     // UPDATE
     @PutMapping
-    public AlbumOut update(@RequestBody @Valid AlbumIn dto) {
-        return Optional.of(service.update(mapper.inToEntity(dto)))
+    public AlbumOut update(@RequestBody @Valid AlbumIn albumIn) {
+        return Optional.of(service.update(mapper.inToEntity(albumIn)))
                 .map(mapper::entityToOut)
                 .orElseThrow();
     }

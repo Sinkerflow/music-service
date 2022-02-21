@@ -1,7 +1,7 @@
 package com.sinkerflow.music.api.mapper;
 
-import com.sinkerflow.music.api.dto.AlbumIn;
-import com.sinkerflow.music.api.dto.AlbumOut;
+import com.sinkerflow.music.api.model.AlbumIn;
+import com.sinkerflow.music.api.model.AlbumOut;
 import com.sinkerflow.music.dao.model.Album;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

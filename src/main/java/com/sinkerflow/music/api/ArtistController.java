@@ -1,17 +1,17 @@
 package com.sinkerflow.music.api;
 
-import com.sinkerflow.music.api.dto.ArtistIn;
-import com.sinkerflow.music.api.dto.ArtistOut;
 import com.sinkerflow.music.api.mapper.ArtistMapper;
+import com.sinkerflow.music.api.model.ArtistIn;
+import com.sinkerflow.music.api.model.ArtistOut;
 import com.sinkerflow.music.service.ArtistService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/artists")
@@ -23,24 +23,31 @@ public class ArtistController {
 
     // CREATE
     @PostMapping
-    public ArtistOut create(@RequestBody @Valid ArtistIn dto) {
-        return Optional.of(service.create(mapper.inToEntity(dto)))
-                .map(mapper::entityToOut)
-                .orElseThrow();
+    public ResponseEntity<?> create(@RequestBody @Valid ArtistIn artistIn) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(mapper.entityToOut(service.create(mapper.inToEntity(artistIn))));
     }
 
     // READ
     @GetMapping
-    public List<ArtistOut> retrieveAll() {
-        return service.find().stream()
-                .map(mapper::entityToOut)
-                .collect(Collectors.toList());
+    public ResponseEntity<?> retrieveAll() {
+        return ResponseEntity.ok(mapper.entityToOutList(service.find()));
+    }
+
+    @GetMapping("/{artistId}")
+    public ArtistOut retrieveById(@PathVariable String artistId) {
+        return mapper.entityToOut(service.findOne(UUID.fromString(artistId)));
+    }
+
+    @GetMapping("/name/{artistName}")
+    public ArtistOut retrieveByName(@PathVariable String artistName) {
+        return mapper.entityToOut(service.findOne(artistName));
     }
 
     // UPDATE
     @PutMapping
-    public ArtistOut update(@RequestBody @Valid ArtistIn dto) {
-        return Optional.of(service.update(mapper.inToEntity(dto)))
+    public ArtistOut update(@RequestBody @Valid ArtistIn artistIn) {
+        return Optional.of(service.update(mapper.inToEntity(artistIn)))
                 .map(mapper::entityToOut)
                 .orElseThrow();
     }

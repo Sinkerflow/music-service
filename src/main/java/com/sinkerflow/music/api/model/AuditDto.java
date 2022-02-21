@@ -1,4 +1,4 @@
-package com.sinkerflow.music.api.dto;
+package com.sinkerflow.music.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
