@@ -6,7 +6,6 @@ import com.sinkerflow.music.dao.model.Artist;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.Collection;
 
 @Mapper(componentModel = "spring")

@@ -2,7 +2,6 @@ package com.sinkerflow.music.api.handler;
 
 import com.sinkerflow.music.api.handler.exception.MultipleErrorsException;
 import com.sinkerflow.music.api.handler.exception.SinkerException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

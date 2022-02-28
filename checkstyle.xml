@@ -1,0 +1,18 @@
+<?xml version="1.0"?><!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+        "https://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="fileExtensions" value="java"/>
+    <module name="FileTabCharacter"/>
+    <module name="TreeWalker">
+        <property name="tabWidth" value="4"/>
+        <module name="AvoidStarImport"/>
+        <module name="UnusedImports"/>
+        <module name="ConstantName"/>
+        <module name="MethodName"/>
+        <module name="ParameterNumber">
+            <property name="max" value="12"/>
+        </module>
+        <module name="EmptyBlock"/>
+    </module>
+</module>
