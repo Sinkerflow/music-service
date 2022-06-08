@@ -1,43 +1,39 @@
+server:
+  port: 8080
+
+#keycloak:
+#  realm: develop
+#  auth-server-url: ${KEYCLOAK_URI:http://keycloak-service:8080/auth}
+#  ssl-required: external
+#  resource: music-service
+#  credentials:
+#    secret: ${KEYCLOAK_CLIENT_SECRET}
+#  use-resource-role-mappings: true
+#  bearer-only: true
+#  principal-attribute: preferred_username
+
 spring:
   application:
-    name: music
-keycloak:
-  realm: develop
-  auth-server-url: ${KEYCLOAK_URI:http://keycloak-service:8080/auth}
-  ssl-required: external
-  resource: music-service
-  credentials:
-    secret: ${KEYCLOAK_CLIENT_SECRET}
-  use-resource-role-mappings: true
-  bearer-only: true
-  principal-attribute: preferred_username
-
-
---- # cloud
-server:
-  port: ${PORT:8080}
-spring:
-  config:
-    activate:
-      on-profile: cloud
-  data:
-    mongodb:
-      host: mongo-srv
-      port: 27017
-      database: sinkerflow
-
-#STACKTRACE_MODE_ENABLED: ${STACKTRACE_MODE_ENABLED:false}
-
---- # develop
-server:
-  port: ${PORT:8080}
-spring:
-  profiles:
-    active: develop
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: sinkerflow
-
-#STACKTRACE_MODE_ENABLED: ${STACKTRACE_MODE_ENABLED:true}
+    name: sinkerflow
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sinkerflow
+    username: root
+    password: root
+  jpa:
+    properties:
+      hibernate:
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
+        show_sql: true
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 32MB
+      max-request-size: 48MB

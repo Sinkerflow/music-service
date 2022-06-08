@@ -1,31 +1,14 @@
 version: '3'
 services:
-  mongo-srv:
-    container_name: mongo-srv
-    image: mongo:latest
-    restart: always
-    networks:
-      - net
-    volumes:
-      - ./data:/data/db
+  postgres:
+    container_name: postgres
+    image: postgres:latest
     ports:
-      - "27017:27017"
-  music-srv:
-#    build:./
-    image: mishachernsyhev14/sinkerflow:2.0
-    container_name: music-srv
-    networks:
-      - net
-    ports:
-      - "8080:8080"
-    expose:
-      - "8080"
-    restart: unless-stopped
+      - "5432:5432"
     environment:
-      - "SERVICE_NAME=music-srv"
-      - "PORT=8080"
-    depends_on:
-      - mongo-srv
+      - POSTGRES_DB=sinkerflow
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
 networks:
   net:
     driver: "bridge"
